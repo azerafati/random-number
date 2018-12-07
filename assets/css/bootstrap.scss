@@ -1,0 +1,59 @@
+$enable-caret: true;
+$enable-rounded: true;
+$enable-shadows: true;
+$enable-gradients: true;
+$enable-transitions: true;
+$enable-hover-media-query: false;
+$enable-grid-classes: true;
+$enable-print-styles: true;
+
+//$primary : #0aa89e;
+$primary: #ec008c;
+$secondary: #56565a !default;
+
+$border-radius: .25rem;
+$border-radius-lg: .3rem;
+$border-radius-sm: .2rem;
+
+@import "~bootstrap/scss/bootstrap";
+
+///Bootstrap RTL
+.card-title, .card-header, .form-group, .alert {
+  text-align: right;
+}
+
+.custom-control-label {
+  &::before, &::after {
+    right: -1.5rem;
+    left: initial;
+  }
+}
+
+.custom-control {
+  padding-left: 0rem;
+  padding-right: 1.5rem;
+}
+
+
+.card .card-body .card-text small {
+  line-height: 1;
+}
+
+
+ol.breadcrumb{
+  padding: 0.5rem 1rem;
+}
+
+$breadcrumb-item-padding: 0.4rem;
+.breadcrumb-item {
+  // The separator between breadcrumbs (by default, a forward-slash: "/")
+  + .breadcrumb-item {
+    padding-left: 0;
+    padding-right: $breadcrumb-item-padding;
+
+    &::before {
+      padding-right: 0; //$breadcrumb-item-padding;
+      padding-left: $breadcrumb-item-padding;
+    }
+  }
+}
