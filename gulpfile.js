@@ -28,10 +28,8 @@ gulp.task('clean', function () {
 
 gulp.task('copy-files', function () {
     return gulp.src([
-        'index.php', 'robots.txt', '.htaccess', 'assets/font/**', 'assets/img/**','assets/img/**', 'app/**', 'app/.htaccess',
-        '!app/config.ini',
-        '!app/composer.json',
-        '!app/composer.lock'
+        'assets/font/**', 'assets/img/**', 'assets/img/**',
+
 
     ], {base: ".", nodir: true})
         .pipe(gulp.dest(destination));
@@ -64,15 +62,13 @@ gulp.task('js', function (done) {
 });
 
 gulp.task('dependencies', function (done) {
-    gulp.src(['app/view/fragments/base.php'], {base: '.'})
+    gulp.src(['index.html'], {base: '.'})
         .pipe(useref({searchPath: '.'}))
         .pipe(gulp.dest(destination));
     setTimeout(function () {
         done();
-    },1000)
+    }, 1000)
 });
-
-
 
 
 gulp.task('scss', function () {
@@ -80,7 +76,7 @@ gulp.task('scss', function () {
         if (url[0] === '~') {
             url = path.resolve('./node_modules', url.substr(1));
         } else if (url[0] === '/') {
-            url = path.resolve( url.substr(1));
+            url = path.resolve(url.substr(1));
         }
         return {file: url};
     }
@@ -95,24 +91,22 @@ gulp.task('scss', function () {
 });
 
 
-
-
 function browserSyncReload(done) {
     browserSync.reload();
     done();
 }
 
 
-gulp.task('watch', gulp.series(gulp.parallel('scss', 'js'), function watch (done) {
-    gulp.watch(['app/**/*.scss','assets/**/*css'], gulp.parallel('scss'));
-    gulp.watch(['app/**/*.js'], gulp.series('js',browserSyncReload));
+gulp.task('watch', gulp.series(gulp.parallel('scss', 'js'), function watch(done) {
+    gulp.watch(['app/**/*.scss', 'assets/**/*css'], gulp.parallel('scss'));
+    gulp.watch(['app/**/*.js'], gulp.series('js', browserSyncReload));
     gulp.watch(["app/**/*.html", "index.html"]).on('change', browserSync.reload);
 
     done();
 }));
 
 
-gulp.task('default', gulp.series(gulp.parallel('clean'), 'watch', 'browser-sync'));
+gulp.task('default', gulp.series('clean', 'copy-files', 'watch', 'browser-sync'));
 
 
 function logError(error) {
@@ -123,11 +117,11 @@ function logError(error) {
 }
 
 
-gulp.task('scripts-minify', gulp.series('dependencies', function minify(done) {
+gulp.task('scripts-minify', gulp.series('js', 'dependencies', function minify(done) {
     // Minify and copy all JavaScript (except vendor scripts)
     // with sourcemaps all the way down
     del('./' + destination + 'assets/js/templates.js');
-    return gulp.src(['/assets/app.js'], {base: destination, cwd: destination})
+    return gulp.src(['assets/js/app.js'], {base: destination, cwd: destination})
         .pipe(iife({
             useStrict: false
         }))
@@ -138,7 +132,6 @@ gulp.task('scripts-minify', gulp.series('dependencies', function minify(done) {
         .pipe(header(fs.readFileSync('header.txt', 'utf8'), {pkg: package}))
         .pipe(gulp.dest(destination));
 }));
-
 
 
 gulp.task('styles-minify', gulp.series(gulp.parallel('scss'), function () {
@@ -171,13 +164,16 @@ gulp.task('production-replace', function (done) {
 
     var cacheBuster = rndStr();
 
-    return gulp.src(['app/view/fragments/base.php', 'app/view/admin/admin-index.php', 'assets/js/app.js', 'assets/admin/js/app.js'], {base: destination, cwd: destination})
+    return gulp.src(['index.html', 'assets/js/app.js'], {
+        base: destination,
+        cwd: destination
+    })
     //adding version to stop caching
         .pipe(replace('js/app.js', 'js/app.js?cs=' + cacheBuster))
         .pipe(replace('css/style.css', 'css/style.css?cs=' + cacheBuster))
-        .pipe(replace("sprite.svg", 'sprite.svg?cs=' + cacheBuster))
-
         .pipe(replace('/dist/', '/'))
+        .pipe(replace("/assets", 'assets'))
+
         .pipe(replace('debugInfoEnabled(!0)', 'debugInfoEnabled(false)'))
         .pipe(replace('[[version]]', package.version))
 

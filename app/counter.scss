@@ -18,7 +18,7 @@ $flip-speed: 0.15s;
   display: inline-block;
   width: 120px;
   height: 180px;
-  margin: 10px;
+  margin: 5px;
 
   ul {
     list-style: none;
@@ -173,6 +173,8 @@ ul.flip li a div div.inn {
   text-align: center;
   background-color: #333;
   border-radius: 6px;
+  line-height: 113%;
+  vertical-align: middle;
 }
 
 ul.flip li a div.up div.inn {
