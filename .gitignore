@@ -4,7 +4,6 @@
 *.log.*
 /.idea/
 /.idea/**
-**/style.css
 **/*.map
 /app/config.ini
 /app/vendor/**
