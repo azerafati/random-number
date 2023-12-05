@@ -1,3 +1,6 @@
+import $ from 'jquery'
+
+
 $(function () {
     var flipSpeed = 0.3 * 2;
 
@@ -79,8 +82,7 @@ $(function () {
             activeflip = counter.find("ul.flip li").eq(0);
             activeflip.addClass("active");
 
-        }
-        else {
+        } else {
             activeflip.addClass("before")
                 .removeClass("active")
                 .next("li")

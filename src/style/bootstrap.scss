@@ -15,8 +15,6 @@ $border-radius: .25rem;
 $border-radius-lg: .3rem;
 $border-radius-sm: .2rem;
 
-@import "~bootstrap/scss/bootstrap";
-
 ///Bootstrap RTL
 .card-title, .card-header, .form-group, .alert {
   text-align: right;

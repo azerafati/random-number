@@ -8,7 +8,7 @@ body {
   background: rgb(150, 150, 150);
   //background: radial-gradient(ellipse at center, rgba(150, 150, 150, 1) 0%, rgba(89, 89, 89, 1) 100%);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#969696', endColorstr = '#595959', GradientType = 1);
-  background: url(../img/wall.jpg) no-repeat center center fixed;
+  background: url(/assets/img/wall.jpg) no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
